@@ -8,27 +8,19 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/toolbar"
-        android:text="Add Spot:"
-        android:textSize="24sp"
-        android:paddingRight="24dp"
-        android:paddingLeft="24dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="24dp"
-        android:paddingLeft="24dp">
+        android:paddingLeft="24dp"
+        android:layout_marginTop="24dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name: "/>
+            android:hint="@string/name"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -42,7 +34,7 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description: "/>
+            android:hint="@string/description"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,6 +44,9 @@
         android:layout_height="wrap_content"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Add Spot" />
+        android:layout_gravity="right"
+        android:text= "@string/add"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

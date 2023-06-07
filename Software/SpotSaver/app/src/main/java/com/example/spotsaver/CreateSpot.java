@@ -6,14 +6,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.room.Room;
 
 import com.example.spotsaver.model.Spot;
 import com.example.spotsaver.utils.AppDatabase;
+
+import java.util.Objects;
 
 public class CreateSpot extends AppCompatActivity {
 
@@ -21,6 +26,10 @@ public class CreateSpot extends AppCompatActivity {
     EditText email;
     Button addSpot;
     int value;
+    ImageView back;
+    ImageView delete;
+    ImageView edit;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +39,20 @@ public class CreateSpot extends AppCompatActivity {
         value = -1; // or other values
         if(b != null)
             value = b.getInt("key");
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        delete = toolbar.findViewById(R.id.delete);
+        edit = toolbar.findViewById(R.id.edit);
+        back = findViewById(R.id.back);
+        delete.setVisibility(View.GONE);
+        edit.setVisibility(View.GONE);
+
+        TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
+        textView.setText(R.string.addSpot);
+
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         name = findViewById(R.id.name);
         email = findViewById(R.id.description);
@@ -47,7 +70,7 @@ public class CreateSpot extends AppCompatActivity {
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
-                Toast.makeText(getApplicationContext(),"Spot created",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),R.string.toastSpot,Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });

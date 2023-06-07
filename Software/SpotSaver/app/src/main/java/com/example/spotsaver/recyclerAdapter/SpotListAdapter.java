@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spotsaver.DetailSpotActivity;
 import com.example.spotsaver.R;
 import com.example.spotsaver.model.Spot;
 
@@ -45,13 +46,13 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotViewHolder> {
             @Override
             public void onClick(View view) {
                 Log.d("Liste", "iid: " + (spots.get(position).id));
-                /*Intent intent = new Intent(context, DetailActivity.class);
+                Intent intent = new Intent(context, DetailSpotActivity.class);
                 //Sollte noch geändert werden
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 Bundle b = new Bundle();
                 b.putInt("key", spots.get(position).id); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
-                context.startActivity(intent);*/
+                context.startActivity(intent);
             }
         });
     }

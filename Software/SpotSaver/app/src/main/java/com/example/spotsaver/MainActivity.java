@@ -2,11 +2,11 @@ package com.example.spotsaver;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.spotsaver.model.SpotList;
@@ -37,9 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
-        textView.setText("Deine Listen");
-        toolbar.findViewById(R.id.edit).setVisibility(View.INVISIBLE);
-        toolbar.findViewById(R.id.delete).setVisibility(View.INVISIBLE);
+        textView.setText(R.string.listTitle);
+        toolbar.findViewById(R.id.back).setVisibility(View.GONE);
+        toolbar.findViewById(R.id.edit).setVisibility(View.GONE);
+        toolbar.findViewById(R.id.delete).setVisibility(View.GONE);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -63,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Add a List");
+                builder.setTitle(R.string.newList);
 
                 final EditText listName = new EditText(MainActivity.this);
                 listName.setInputType(InputType.TYPE_CLASS_TEXT);
-                listName.setHint("Enter Name of List");
+                listName.setHint(R.string.newListHint);
 
 
                 builder.setView(listName);
-                builder.setPositiveButton("Add List", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.spotListDao().insertAll(new SpotList(listName.getText().toString()));
                         List<SpotList> lists = spotListDao.getAll();
@@ -87,5 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
+    }
 }

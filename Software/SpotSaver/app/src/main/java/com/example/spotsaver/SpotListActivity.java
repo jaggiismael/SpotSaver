@@ -19,21 +19,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.spotsaver.model.Spot;
-import com.example.spotsaver.model.SpotDao;
 import com.example.spotsaver.model.SpotList;
-import com.example.spotsaver.model.SpotListDao;
 import com.example.spotsaver.recyclerAdapter.SpotListAdapter;
 import com.example.spotsaver.utils.AppDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SpotListActivity extends AppCompatActivity {
 
     FloatingActionButton addSpot;
     int value;
+    ImageView back;
     ImageView delete;
     ImageView edit;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +49,12 @@ public class SpotListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         delete = toolbar.findViewById(R.id.delete);
         edit = toolbar.findViewById(R.id.edit);
+        back = findViewById(R.id.back);
 
         TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
 
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
@@ -80,14 +82,21 @@ public class SpotListActivity extends AppCompatActivity {
             }
         });
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SpotListActivity.this, MainActivity.class));
+            }
+        });
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SpotListActivity.this);
-                builder.setTitle("Liste löschen?");
-                builder.setMessage("Diese Aktion kann nicht rückgängig gemacht werden");
+                builder.setTitle(R.string.deleteList);
+                builder.setMessage(R.string.cantUndone);
 
-                builder.setPositiveButton("Delete List", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.spotListDao().deleteListById(value);
                         startActivity(new Intent(SpotListActivity.this, MainActivity.class));
@@ -104,15 +113,15 @@ public class SpotListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SpotListActivity.this);
-                builder.setTitle("Rename the List");
+                builder.setTitle(R.string.renameList);
 
                 final EditText listName = new EditText(SpotListActivity.this);
                 listName.setInputType(InputType.TYPE_CLASS_TEXT);
-                listName.setHint("Enter new Name of List");
+                listName.setHint(R.string.newListHint);
 
                 builder.setView(listName);
 
-                builder.setPositiveButton("Rename List", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.rename, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         list.name = listName.getText().toString();
                         db.spotListDao().update(list);
@@ -125,5 +134,11 @@ public class SpotListActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(SpotListActivity.this, MainActivity.class));
     }
 }
