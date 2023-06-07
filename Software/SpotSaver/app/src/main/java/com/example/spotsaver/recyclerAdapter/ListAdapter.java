@@ -61,6 +61,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateList(List<SpotList> lists) {
+        this.lists = lists;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return lists.size();

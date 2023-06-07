@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.spotsaver.model.SpotList;
 import com.example.spotsaver.model.SpotListDao;
@@ -34,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
+        textView.setText("Deine Listen");
+        toolbar.findViewById(R.id.edit).setVisibility(View.INVISIBLE);
+        toolbar.findViewById(R.id.delete).setVisibility(View.INVISIBLE);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
@@ -41,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
         SpotListDao spotListDao = db.spotListDao();
 
-        List<SpotList> items = spotListDao.getAll();
+        List<SpotList> lists = spotListDao.getAll();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ListAdapter(this.getApplicationContext(), items));
+        ListAdapter listAdapter = new ListAdapter(this.getApplicationContext(), lists);
+        recyclerView.setAdapter(listAdapter);
 
 
         addList = findViewById(R.id.addList);
@@ -57,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 final EditText listName = new EditText(MainActivity.this);
                 listName.setInputType(InputType.TYPE_CLASS_TEXT);
                 listName.setHint("Enter Name of List");
+
+
                 builder.setView(listName);
                 builder.setPositiveButton("Add List", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.spotListDao().insertAll(new SpotList(listName.getText().toString()));
-                        finish();
-                        startActivity(getIntent());
+                        List<SpotList> lists = spotListDao.getAll();
+                        listAdapter.updateList(lists);
                     }
                 });
                 // Create the AlertDialog
