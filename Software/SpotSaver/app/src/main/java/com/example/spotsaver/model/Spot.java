@@ -12,9 +12,11 @@ import androidx.room.PrimaryKey;
 })
 public class Spot {
 
-    public Spot(String name, String description, int lid) {
+    public Spot(String name, String description, double latitude, double longitude, int lid) {
         this.name = name;
         this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.lid = lid;
     }
 
@@ -27,6 +29,12 @@ public class Spot {
 
     @ColumnInfo(name = "description")
     public String description;
+
+    @ColumnInfo(name = "latitude")
+    public double latitude;
+
+    @ColumnInfo(name = "longitude")
+    public double longitude;
 
     @ColumnInfo(name = "listId")
     public int lid;

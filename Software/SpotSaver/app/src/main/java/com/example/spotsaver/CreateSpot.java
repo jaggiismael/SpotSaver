@@ -18,6 +18,16 @@ import androidx.room.Room;
 import com.example.spotsaver.model.Spot;
 import com.example.spotsaver.utils.AppDatabase;
 
+import org.osmdroid.api.IMapController;
+import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
+import org.osmdroid.views.overlay.Marker;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CreateSpot extends AppCompatActivity {
@@ -29,6 +39,9 @@ public class CreateSpot extends AppCompatActivity {
     ImageView back;
     ImageView delete;
     ImageView edit;
+    MapView map = null;
+    Marker mapMarker;
+    GeoPoint geoPoint;
 
 
     @Override
@@ -61,11 +74,40 @@ public class CreateSpot extends AppCompatActivity {
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
+        map = findViewById(R.id.mapView);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+
+        IMapController mapController = map.getController();
+        mapController.setZoom(15.9);
+        GeoPoint startPoint = new GeoPoint(52.526853, 13.558792);
+        mapController.setCenter(startPoint);
+        mapMarker = new Marker(map);
+        final MapEventsReceiver mReceive = new MapEventsReceiver(){
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                if(map.getOverlays().size() < 1) {
+                    map.getOverlays().remove(mapMarker);
+                }
+                geoPoint = p;
+                mapMarker.setPosition(p);
+                mapMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(mapMarker);
+                Log.d("Lat Long", p.getLatitude() + " - "+p.getLongitude());
+                return false;
+            }
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
+        };
+        map.getOverlays().add(new MapEventsOverlay(mReceive));
+
         addSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("CreateSpot", "Name: " + name.getText().toString());
-                db.spotDao().insertAll(new Spot(name.getText().toString(), email.getText().toString(), value));
+                db.spotDao().insertAll(new Spot(name.getText().toString(), email.getText().toString(), geoPoint.getLatitude(), geoPoint.getLongitude(), value));
                 Intent intent = new Intent(CreateSpot.this, SpotListActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id

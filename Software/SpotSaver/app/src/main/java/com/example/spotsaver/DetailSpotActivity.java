@@ -6,10 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,9 +23,12 @@ import com.example.spotsaver.utils.AppDatabase;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
+import org.osmdroid.views.overlay.Marker;
 
 public class DetailSpotActivity extends AppCompatActivity {
 
@@ -74,8 +79,13 @@ public class DetailSpotActivity extends AppCompatActivity {
 
         IMapController mapController = map.getController();
         mapController.setZoom(15.9);
-        GeoPoint startPoint = new GeoPoint(52.526853, 13.558792);
+        GeoPoint startPoint = new GeoPoint(spot.latitude, spot.longitude);
         mapController.setCenter(startPoint);
+
+        Marker marker = new Marker(map);
+        marker.setPosition(startPoint);
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(marker);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
