@@ -13,47 +13,43 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.spotsaver.R;
-import com.example.spotsaver.model.SpotList;
-import com.example.spotsaver.utils.AppDatabase;
+import com.example.spotsaver.model.Spot;
 
 import java.util.List;
 
-public class SpotListAdapter extends RecyclerView.Adapter<SpotListViewHolder> {
+public class SpotListAdapter extends RecyclerView.Adapter<SpotViewHolder> {
 
     Context context;
-    List<SpotList> lists;
-    AppDatabase db;
+    List<Spot> spots;
 
-    public SpotListAdapter(Context context, List<SpotList> lists) {
+    public SpotListAdapter(Context context, List<Spot> spots) {
         this.context = context;
-        this.lists = lists;
-        db = Room.databaseBuilder(context,
-                AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        this.spots = spots;
     }
 
     @NonNull
     @Override
-    public SpotListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SpotListViewHolder(LayoutInflater.from(context).inflate(R.layout.spotlist_item, parent, false));
+    public SpotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new SpotViewHolder(LayoutInflater.from(context).inflate(R.layout.spot_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SpotListViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.nameView.setText(lists.get(position).name.trim());
-        holder.imageView.setImageResource(R.drawable.list);
+    public void onBindViewHolder(@NonNull SpotViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        holder.nameView.setText(spots.get(position).name.trim());
+        holder.descView.setText(spots.get(position).description.trim());
+        holder.imageView.setImageResource(R.drawable.spot);
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Log.d("Liste", "iid: " + (lists.get(position).iid));
-                Intent intent = new Intent(context, SpotActivity.class);
+                Log.d("Liste", "iid: " + (spots.get(position).id));
+                /*Intent intent = new Intent(context, DetailActivity.class);
                 //Sollte noch geändert werden
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 Bundle b = new Bundle();
-                b.putInt("key", items.get(position).iid); //List Id
+                b.putInt("key", spots.get(position).id); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
                 context.startActivity(intent);*/
             }
@@ -62,6 +58,6 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotListViewHolder> {
 
     @Override
     public int getItemCount() {
-        return lists.size();
+        return spots.size();
     }
 }

@@ -9,12 +9,13 @@ import android.widget.EditText;
 
 import com.example.spotsaver.model.SpotList;
 import com.example.spotsaver.model.SpotListDao;
-import com.example.spotsaver.recyclerAdapter.SpotListAdapter;
+import com.example.spotsaver.recyclerAdapter.ListAdapter;
 import com.example.spotsaver.utils.AppDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         List<SpotList> items = spotListDao.getAll();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new SpotListAdapter(this.getApplicationContext(), items));
+        recyclerView.setAdapter(new ListAdapter(this.getApplicationContext(), items));
 
 
         addList = findViewById(R.id.addList);

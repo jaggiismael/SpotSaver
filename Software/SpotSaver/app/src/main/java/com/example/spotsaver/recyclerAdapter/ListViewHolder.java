@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotsaver.R;
 
-public class SpotListViewHolder extends RecyclerView.ViewHolder{
+public class ListViewHolder extends RecyclerView.ViewHolder{
 
     ImageView imageView;
     TextView nameView;
     RelativeLayout layout;
 
 
-    public SpotListViewHolder(@NonNull View itemView) {
+    public ListViewHolder(@NonNull View itemView) {
         super(itemView);
         imageView = itemView.findViewById(R.id.imageview);
         nameView = itemView.findViewById(R.id.name);
