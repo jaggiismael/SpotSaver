@@ -39,6 +39,8 @@ public class DetailSpotActivity extends AppCompatActivity {
     ImageView back;
     ImageView delete;
     ImageView edit;
+    private boolean alertDialogShown = false;
+    private Intent nextStartedActivity = null;
 
 
     @Override
@@ -108,6 +110,7 @@ public class DetailSpotActivity extends AppCompatActivity {
                 builder.setPositiveButton("Delete List", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.spotDao().delete(spot.id);
+                        Toast.makeText(getApplicationContext(),R.string.toastSpotDelete,Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DetailSpotActivity.this, SpotListActivity.class);
                         Bundle b = new Bundle();
                         b.putInt("key", spot.lid); //List Id

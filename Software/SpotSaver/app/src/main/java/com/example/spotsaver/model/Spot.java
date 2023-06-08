@@ -6,11 +6,15 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = {@ForeignKey(entity = SpotList.class,
-        parentColumns = "iid",
+        parentColumns = "lid",
         childColumns = "listId",
         onDelete = ForeignKey.CASCADE)
 })
 public class Spot {
+
+    public Spot() {
+
+    }
 
     public Spot(String name, String description, double latitude, double longitude, int lid) {
         this.name = name;

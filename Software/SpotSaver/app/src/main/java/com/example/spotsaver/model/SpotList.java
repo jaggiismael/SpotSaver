@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class SpotList {
 
     @PrimaryKey(autoGenerate = true)
-    public int iid;
+    public int lid;
 
     @ColumnInfo(name = "name")
     public

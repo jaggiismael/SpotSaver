@@ -5,9 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.spotsaver.model.SpotList;
 import com.example.spotsaver.model.SpotListDao;
@@ -27,11 +30,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton addList;
+    SpotListDao spotListDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
 
-        SpotListDao spotListDao = db.spotListDao();
+        spotListDao = db.spotListDao();
 
         List<SpotList> lists = spotListDao.getAll();
 
@@ -66,17 +71,23 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(R.string.newList);
 
-                final EditText listName = new EditText(MainActivity.this);
+                View layout = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+                builder.setView(layout);
+
+                EditText listName = layout.findViewById(R.id.listName);
                 listName.setInputType(InputType.TYPE_CLASS_TEXT);
                 listName.setHint(R.string.newListHint);
 
-
-                builder.setView(listName);
                 builder.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        if(TextUtils.isEmpty(listName.getText().toString())) {
+                            Toast.makeText(getApplicationContext(),R.string.toastSpotListFail,Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         db.spotListDao().insertAll(new SpotList(listName.getText().toString()));
                         List<SpotList> lists = spotListDao.getAll();
                         listAdapter.updateList(lists);
+                        Toast.makeText(getApplicationContext(),R.string.toastSpotList,Toast.LENGTH_SHORT).show();
                     }
                 });
                 // Create the AlertDialog

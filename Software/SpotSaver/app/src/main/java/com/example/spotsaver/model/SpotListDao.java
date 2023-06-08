@@ -15,7 +15,7 @@ public interface SpotListDao {
     @Query("SELECT * FROM spotList")
     List<SpotList> getAll();
 
-    @Query("SELECT * FROM spotList WHERE iid = :listid")
+    @Query("SELECT * FROM spotList WHERE lid = :listid")
     SpotList getListById(int listid);
 
     @Insert
@@ -27,6 +27,6 @@ public interface SpotListDao {
     @Delete
     void delete(SpotList spotList);
 
-    @Query("DELETE FROM spotList WHERE iid = :listid")
+    @Query("DELETE FROM spotList WHERE lid = :listid")
     void deleteListById(int listid);
 }

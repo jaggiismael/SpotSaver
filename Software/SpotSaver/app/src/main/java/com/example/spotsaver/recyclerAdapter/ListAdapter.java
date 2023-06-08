@@ -49,12 +49,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Liste", "iid: " + (lists.get(position).iid));
+                Log.d("Liste", "iid: " + (lists.get(position).lid));
                 Intent intent = new Intent(context, SpotListActivity.class);
                 //Sollte noch geändert werden
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 Bundle b = new Bundle();
-                b.putInt("key", lists.get(position).iid); //List Id
+                b.putInt("key", lists.get(position).lid); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
                 context.startActivity(intent);
             }

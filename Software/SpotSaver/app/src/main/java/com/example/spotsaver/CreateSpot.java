@@ -32,9 +32,9 @@ import java.util.Objects;
 
 public class CreateSpot extends AppCompatActivity {
 
-    EditText name;
-    EditText email;
-    Button addSpot;
+    public EditText name;
+    public EditText email;
+    public Button addSpot;
     int value;
     ImageView back;
     ImageView delete;
@@ -113,6 +113,17 @@ public class CreateSpot extends AppCompatActivity {
                 b.putInt("key", value); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
                 Toast.makeText(getApplicationContext(),R.string.toastSpot,Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateSpot.this, SpotListActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("key", value); //List Id
+                intent.putExtras(b); //Put your id to your next Intent
                 startActivity(intent);
             }
         });

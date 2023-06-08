@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -99,6 +101,7 @@ public class SpotListActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.spotListDao().deleteListById(value);
+                        Toast.makeText(getApplicationContext(),R.string.toastSpotListDelete,Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SpotListActivity.this, MainActivity.class));
                     }
                 });
@@ -115,17 +118,23 @@ public class SpotListActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SpotListActivity.this);
                 builder.setTitle(R.string.renameList);
 
-                final EditText listName = new EditText(SpotListActivity.this);
+                View layout = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+                builder.setView(layout);
+
+                EditText listName = layout.findViewById(R.id.listName);
                 listName.setInputType(InputType.TYPE_CLASS_TEXT);
                 listName.setHint(R.string.newListHint);
 
-                builder.setView(listName);
-
                 builder.setPositiveButton(R.string.rename, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        if(TextUtils.isEmpty(listName.getText().toString())) {
+                            Toast.makeText(getApplicationContext(),R.string.toastSpotListFail,Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         list.name = listName.getText().toString();
                         db.spotListDao().update(list);
                         textView.setText(list.name);
+                        Toast.makeText(getApplicationContext(),R.string.toastSpotListEdit,Toast.LENGTH_SHORT).show();
                     }
                 });
                 // Create the AlertDialog
