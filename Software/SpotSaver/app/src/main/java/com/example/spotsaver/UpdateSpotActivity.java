@@ -26,17 +26,14 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-public class CreateSpot extends AppCompatActivity {
+public class UpdateSpotActivity extends AppCompatActivity {
 
     public EditText name;
     public EditText description;
-    public Button addSpot;
+    public Button updateSpot;
     int value;
-    int spotId;
     ImageView back;
     ImageView delete;
     ImageView edit;
@@ -64,17 +61,24 @@ public class CreateSpot extends AppCompatActivity {
         edit.setVisibility(View.GONE);
 
         TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
-        textView.setText(R.string.addSpot);
+        textView.setText(R.string.updateSpot);
 
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         name = findViewById(R.id.name);
         description = findViewById(R.id.description);
-        addSpot = findViewById(R.id.addSpot);
+        updateSpot = findViewById(R.id.addSpot);
+
+        updateSpot.setText(R.string.save);
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+
+        Spot spot = db.spotDao().getById(value);
+        name.setText(spot.name);
+        description.setText(spot.description);
+
 
         map = findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
@@ -85,6 +89,10 @@ public class CreateSpot extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(52.526853, 13.558792);
         mapController.setCenter(startPoint);
         mapMarker = new Marker(map);
+        geoPoint = new GeoPoint(spot.latitude, spot.longitude);
+        mapMarker.setPosition(geoPoint);
+        mapMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(mapMarker);
 
         final MapEventsReceiver mReceive = new MapEventsReceiver(){
             @Override
@@ -106,16 +114,20 @@ public class CreateSpot extends AppCompatActivity {
         };
         map.getOverlays().add(new MapEventsOverlay(mReceive));
 
-        addSpot.setOnClickListener(new View.OnClickListener() {
+        updateSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CreateSpot", "Name: " + name.getText().toString());
-                db.spotDao().insertAll(new Spot(name.getText().toString(), description.getText().toString(), geoPoint.getLatitude(), geoPoint.getLongitude(), value));
-                Intent intent = new Intent(CreateSpot.this, SpotListActivity.class);
+                Log.d("UpdateSpot", "Name: " + name.getText().toString());
+                spot.name = name.getText().toString();
+                spot.description = description.getText().toString();
+                spot.latitude = geoPoint.getLatitude();
+                spot.longitude = geoPoint.getLongitude();
+                db.spotDao().update(spot);
+                Intent intent = new Intent(UpdateSpotActivity.this, DetailSpotActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
-                Toast.makeText(getApplicationContext(),R.string.toastSpot,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),R.string.savedChanges,Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -123,7 +135,7 @@ public class CreateSpot extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateSpot.this, SpotListActivity.class);
+                Intent intent = new Intent(UpdateSpotActivity.this, DetailSpotActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id
                 intent.putExtras(b); //Put your id to your next Intent

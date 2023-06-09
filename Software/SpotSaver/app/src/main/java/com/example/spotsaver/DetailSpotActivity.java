@@ -125,6 +125,18 @@ public class DetailSpotActivity extends AppCompatActivity {
             }
         });
 
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CreateSpot", "for lid: " + value);
+                Intent intent = new Intent(DetailSpotActivity.this, UpdateSpotActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("key", value); //List Id
+                intent.putExtras(b); //Put your id to your next Intent
+                startActivity(intent);
+            }
+        });
+
 
     }
 

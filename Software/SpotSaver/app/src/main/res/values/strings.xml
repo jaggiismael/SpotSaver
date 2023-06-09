@@ -20,4 +20,7 @@
     <string name="renameList">Liste umbenennen:</string>
     <string name="rename">Umbenennen</string>
     <string name="clickMap">Tippen Sie auf die Karte um den Ort zu markieren</string>
+    <string name="updateSpot">Ort bearbeiten</string>
+    <string name="save">Speichern</string>
+    <string name="savedChanges">Änderungen gespeichert</string>
 </resources>

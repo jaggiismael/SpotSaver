@@ -33,6 +33,7 @@
         <activity android:name=".SpotListActivity"/>
         <activity android:name=".CreateSpot"/>
         <activity android:name=".DetailSpotActivity"/>
+        <activity android:name=".UpdateSpotActivity"/>
     </application>
 
 </manifest>
