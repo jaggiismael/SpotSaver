@@ -76,7 +76,7 @@ public class SpotListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("CreateSpot", "for lid: " + value);
-                Intent intent = new Intent(SpotListActivity.this, CreateSpot.class);
+                Intent intent = new Intent(SpotListActivity.this, CreateSpotActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id
                 intent.putExtras(b); //Put your id to your next Intent

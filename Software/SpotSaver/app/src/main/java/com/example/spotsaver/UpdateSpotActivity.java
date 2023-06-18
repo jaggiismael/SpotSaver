@@ -1,6 +1,9 @@
 package com.example.spotsaver;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -89,6 +92,14 @@ public class UpdateSpotActivity extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(52.526853, 13.558792);
         mapController.setCenter(startPoint);
         mapMarker = new Marker(map);
+        mapMarker.setInfoWindow(null);
+
+        //Set Marker Icon
+        Drawable d = getDrawable(R.drawable.marker);
+        Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+        Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (10.0f * getResources().getDisplayMetrics().density), (int) (16.0f * getResources().getDisplayMetrics().density), true));
+        mapMarker.setIcon(dr);
+
         geoPoint = new GeoPoint(spot.latitude, spot.longitude);
         mapMarker.setPosition(geoPoint);
         mapMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);

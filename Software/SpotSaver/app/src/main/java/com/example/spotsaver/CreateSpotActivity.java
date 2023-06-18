@@ -1,6 +1,9 @@
 package com.example.spotsaver;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,17 +29,14 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-public class CreateSpot extends AppCompatActivity {
+public class CreateSpotActivity extends AppCompatActivity {
 
     public EditText name;
     public EditText description;
     public Button addSpot;
     int value;
-    int spotId;
     ImageView back;
     ImageView delete;
     ImageView edit;
@@ -85,6 +85,13 @@ public class CreateSpot extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(52.526853, 13.558792);
         mapController.setCenter(startPoint);
         mapMarker = new Marker(map);
+        mapMarker.setInfoWindow(null);
+
+        //Set Marker Icon
+        Drawable d = getDrawable(R.drawable.marker);
+        Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+        Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (10.0f * getResources().getDisplayMetrics().density), (int) (16.0f * getResources().getDisplayMetrics().density), true));
+        mapMarker.setIcon(dr);
 
         final MapEventsReceiver mReceive = new MapEventsReceiver(){
             @Override
@@ -111,7 +118,7 @@ public class CreateSpot extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("CreateSpot", "Name: " + name.getText().toString());
                 db.spotDao().insertAll(new Spot(name.getText().toString(), description.getText().toString(), geoPoint.getLatitude(), geoPoint.getLongitude(), value));
-                Intent intent = new Intent(CreateSpot.this, SpotListActivity.class);
+                Intent intent = new Intent(CreateSpotActivity.this, SpotListActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
@@ -123,7 +130,7 @@ public class CreateSpot extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateSpot.this, SpotListActivity.class);
+                Intent intent = new Intent(CreateSpotActivity.this, SpotListActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id
                 intent.putExtras(b); //Put your id to your next Intent
