@@ -7,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
@@ -45,30 +46,29 @@ public class SpotListTest {
 
     @Before
     public void createDatabase() {
-        database = Room.inMemoryDatabaseBuilder(
-                        ApplicationProvider.getApplicationContext(),
-                        AppDatabase.class)
-                .allowMainThreadQueries()
-                .build();
+        database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
+                AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
         spotDao = database.spotDao();
         spotListDao = database.spotListDao();
+    }
 
+    @After
+    public void cleanup() {
+        // Clear and close the database after each test
+        database.clearAllTables();
+        database.close();
+    }
+
+    @Test
+    public void renameListTest() {
         SpotList spotList = new SpotList("List 1");
         spotListDao.insertAll(spotList);
 
         List<SpotList> spotLists = spotListDao.getAll();
 
         retrievedSpotList = spotLists.get(0);
-    }
 
-    @After
-    public void closeDatabase() {
-        database.close();
-    }
-
-    @Test
-    public void renameListTest() {
         String newName = "List 3";
 
         // Launch the activity with the retrieved SpotList object
@@ -92,6 +92,14 @@ public class SpotListTest {
 
     @Test
     public void testDeleteImageViewClick() {
+
+        SpotList spotList = new SpotList("List 1");
+        spotListDao.insertAll(spotList);
+
+        List<SpotList> spotLists = spotListDao.getAll();
+
+        Log.d("Liste", "Liste ist lang: " + spotLists.size());
+        retrievedSpotList = spotLists.get(0);
 
         // Launch the activity with the retrieved SpotList object
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), SpotListActivity.class);

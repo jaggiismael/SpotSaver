@@ -1,22 +1,13 @@
 package com.example.spotsaver;
 
-import android.content.Intent;
 import android.util.Log;
-
 import androidx.room.Room;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import com.example.spotsaver.MainActivity;
-import com.example.spotsaver.R;
 import com.example.spotsaver.model.SpotList;
-import com.example.spotsaver.model.SpotListDao;
-import com.example.spotsaver.recyclerAdapter.ListAdapter;
 import com.example.spotsaver.utils.AppDatabase;
 
 import org.junit.After;
@@ -38,23 +29,18 @@ import static org.junit.Assert.assertNotNull;
 public class MainActivityTest {
 
     private AppDatabase database;
-    private SpotListDao spotListDao;
 
     @Before
     public void setup() {
         // Create an in-memory database for testing
-        database = Room.inMemoryDatabaseBuilder(
-                        ApplicationProvider.getApplicationContext(),
-                        AppDatabase.class)
-                .allowMainThreadQueries()
-                .build();
-
-        spotListDao = database.spotListDao();
+        database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
+                AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
     }
 
     @After
     public void cleanup() {
-        // Close the database after each test
+        // Clear and close the database after each test
+        database.clearAllTables();
         database.close();
     }
 

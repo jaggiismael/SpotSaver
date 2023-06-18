@@ -46,6 +46,7 @@ public class SpotListActivity extends AppCompatActivity {
         value = -1; // or other values
         if(b != null)
             value = b.getInt("key");
+        Log.d("SpotListe", "Key ist: " + value);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,6 +67,7 @@ public class SpotListActivity extends AppCompatActivity {
         List<Spot> spots = db.spotDao().getSpotsByListId(value);
 
         SpotList list = db.spotListDao().getListById(value);
+        Log.d("SpotListe", "Key ist: " + list);
         textView.setText(list.name);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
