@@ -19,7 +19,6 @@ public class ListViewHolder extends RecyclerView.ViewHolder{
 
     public ListViewHolder(@NonNull View itemView) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.imageview);
         nameView = itemView.findViewById(R.id.name);
         layout = itemView.findViewById(R.id.layoutId);
     }

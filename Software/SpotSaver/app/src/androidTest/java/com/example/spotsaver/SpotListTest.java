@@ -91,14 +91,13 @@ public class SpotListTest {
     }
 
     @Test
-    public void testDeleteImageViewClick() {
+    public void deleteListTest() {
 
         SpotList spotList = new SpotList("List 1");
         spotListDao.insertAll(spotList);
 
         List<SpotList> spotLists = spotListDao.getAll();
 
-        Log.d("Liste", "Liste ist lang: " + spotLists.size());
         retrievedSpotList = spotLists.get(0);
 
         // Launch the activity with the retrieved SpotList object
@@ -113,7 +112,7 @@ public class SpotListTest {
         Espresso.onView(ViewMatchers.withText(R.string.deleteList))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        // Perform additional tests or actions on the delete dialog as needed
+        // Click on delete button in dialog field
         onView(withText(R.string.delete)).perform(ViewActions.click());
 
         onView(withId(R.id.addList)).check(matches(isDisplayed()));

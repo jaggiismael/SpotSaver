@@ -104,12 +104,15 @@ public class CreateSpotActivity extends AppCompatActivity {
                 mapMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(mapMarker);
                 Log.d("Lat Long", p.getLatitude() + " - "+p.getLongitude());
+                map.postInvalidate();
                 return false;
             }
             @Override
             public boolean longPressHelper(GeoPoint p) {
                 return false;
             }
+
+
         };
         map.getOverlays().add(new MapEventsOverlay(mReceive));
 

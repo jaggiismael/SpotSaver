@@ -6,6 +6,7 @@
     <string name="add">Hinzufügen</string>
     <string name="newListHint">Namen eingeben</string>
     <string name="deleteList">Liste löschen</string>
+    <string name="deleteSpot">Ort löschen</string>
     <string name="delete">Löschen</string>
     <string name="cantUndone">Diese Aktion kann nicht rückgängig gemacht werden</string>
     <string name="toastSpot">Ort hinzugefügt</string>

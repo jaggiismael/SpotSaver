@@ -40,14 +40,13 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotViewHolder> {
     public void onBindViewHolder(@NonNull SpotViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.nameView.setText(spots.get(position).name.trim());
         holder.descView.setText(spots.get(position).description.trim());
-        holder.imageView.setImageResource(R.drawable.spot);
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("Liste", "iid: " + (spots.get(position).id));
                 Intent intent = new Intent(context, DetailSpotActivity.class);
-                //Sollte noch geändert werden
+
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 Bundle b = new Bundle();
                 b.putInt("key", spots.get(position).id); //List Id

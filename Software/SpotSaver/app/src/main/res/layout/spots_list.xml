@@ -23,6 +23,7 @@
         android:layout_alignParentEnd="true"
         android:clickable="true"
         android:focusable="true"
-        app:srcCompat="@drawable/sharp_add_black_36" />
+        android:backgroundTint="@color/white"
+        android:src="@drawable/plus"/>
 
 </RelativeLayout>

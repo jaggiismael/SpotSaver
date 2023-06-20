@@ -119,10 +119,10 @@ public class DetailSpotActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailSpotActivity.this);
-                builder.setTitle("Ort löschen?");
-                builder.setMessage("Diese Aktion kann nicht rückgängig gemacht werden");
+                builder.setTitle(R.string.deleteSpot);
+                builder.setMessage(R.string.cantUndone);
 
-                builder.setPositiveButton("Delete List", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.spotDao().delete(spot.id);
                         Toast.makeText(getApplicationContext(),R.string.toastSpotDelete,Toast.LENGTH_SHORT).show();
@@ -143,7 +143,6 @@ public class DetailSpotActivity extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CreateSpot", "for lid: " + value);
                 Intent intent = new Intent(DetailSpotActivity.this, UpdateSpotActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("key", value); //List Id

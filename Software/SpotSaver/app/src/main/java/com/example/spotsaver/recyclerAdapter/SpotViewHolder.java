@@ -19,7 +19,6 @@ public class SpotViewHolder extends RecyclerView.ViewHolder {
 
     public SpotViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageview);
             nameView = itemView.findViewById(R.id.name);
             descView = itemView.findViewById(R.id.description);
             layout = itemView.findViewById(R.id.layoutId);

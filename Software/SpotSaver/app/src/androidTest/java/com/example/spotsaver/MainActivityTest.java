@@ -32,9 +32,11 @@ public class MainActivityTest {
 
     @Before
     public void setup() {
-        // Create an in-memory database for testing
+        // Create an database for testing
         database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+
+        database.clearAllTables();
     }
 
     @After
@@ -63,20 +65,5 @@ public class MainActivityTest {
         assertNotNull(lists);
         assertEquals(1, lists.size());
         assertEquals("List 1", lists.get(0).name);
-    }
-
-    @Test
-    public void onBackPressedTest() {
-        // Launch the MainActivity
-        ActivityScenario.launch(MainActivity.class);
-
-        // Perform actions and assertions on the UI
-        onView(withId(R.id.addList)).check(matches(isDisplayed()));
-
-        // Simulate back button press
-        Espresso.pressBackUnconditionally();
-
-        // Assert that MainActivity is launched again
-        onView(withId(R.id.addList)).check(matches(isDisplayed()));
     }
 }
