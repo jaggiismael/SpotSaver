@@ -5,11 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/backgroundWhite">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -26,7 +29,7 @@
         android:layout_alignParentEnd="true"
         android:clickable="true"
         android:focusable="true"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/grey"
         android:src="@drawable/plus"/>
 
 </RelativeLayout>

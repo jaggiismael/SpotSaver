@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -24,14 +23,13 @@ import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
-    Context context;
-    List<SpotList> lists;
-    AppDatabase db;
+    private final Context context;
+    private List<SpotList> lists;
 
     public ListAdapter(Context context, List<SpotList> lists) {
         this.context = context;
         this.lists = lists;
-        db = Room.databaseBuilder(context,
+        AppDatabase db = Room.databaseBuilder(context,
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
     }
 
@@ -45,18 +43,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
     public void onBindViewHolder(@NonNull ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.nameView.setText(lists.get(position).name.trim());
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Liste", "iid: " + (lists.get(position).lid));
-                Intent intent = new Intent(context, SpotListActivity.class);
+        holder.layout.setOnClickListener(view -> {
+            Log.d("Liste", "iid: " + (lists.get(position).lid));
+            Intent intent = new Intent(context, SpotListActivity.class);
 
-                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                Bundle b = new Bundle();
-                b.putInt("key", lists.get(position).lid); //List Id
-                intent.putExtras(b); //Put your id to your next Intent
-                context.startActivity(intent);
-            }
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            Bundle b = new Bundle();
+            b.putInt("key", lists.get(position).lid); //List Id
+            intent.putExtras(b); //Put your id to your next Intent
+            context.startActivity(intent);
         });
     }
 

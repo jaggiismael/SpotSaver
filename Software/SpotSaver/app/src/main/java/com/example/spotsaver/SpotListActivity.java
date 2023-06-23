@@ -1,7 +1,6 @@
 package com.example.spotsaver;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -31,28 +30,23 @@ import java.util.Objects;
 
 public class SpotListActivity extends AppCompatActivity {
 
-    FloatingActionButton addSpot;
-    int value;
-    ImageView back;
-    ImageView delete;
-    ImageView edit;
-
+    public int value;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spots_list);
         Bundle b = getIntent().getExtras();
-        value = -1; // or other values
+        value = -1;
         if(b != null)
             value = b.getInt("key");
         Log.d("SpotListe", "Key ist: " + value);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        delete = toolbar.findViewById(R.id.delete);
-        edit = toolbar.findViewById(R.id.edit);
-        back = findViewById(R.id.back);
+        ImageView delete = toolbar.findViewById(R.id.delete);
+        ImageView edit = toolbar.findViewById(R.id.edit);
+        ImageView back = findViewById(R.id.back);
 
         TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
 
@@ -73,77 +67,60 @@ public class SpotListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SpotListAdapter(getApplicationContext(), spots));
 
-        addSpot = findViewById(R.id.addSpot);
-        addSpot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CreateSpot", "for lid: " + value);
-                Intent intent = new Intent(SpotListActivity.this, CreateSpotActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("key", value); //List Id
-                intent.putExtras(b); //Put your id to your next Intent
-                startActivity(intent);
-            }
+        FloatingActionButton addSpot = findViewById(R.id.addSpot);
+        addSpot.setOnClickListener(v -> {
+            Log.d("CreateSpot", "for lid: " + value);
+            Intent intent = new Intent(SpotListActivity.this, CreateSpotActivity.class);
+            Bundle bAdd = new Bundle();
+            bAdd.putInt("key", value); //List Id
+            intent.putExtras(bAdd);
+            startActivity(intent);
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        back.setOnClickListener(v -> startActivity(new Intent(SpotListActivity.this, MainActivity.class)));
+
+        delete.setOnClickListener(v -> {
+            //Show AlertDialog to make sure user wants to delete list
+            AlertDialog.Builder builder = new AlertDialog.Builder(SpotListActivity.this);
+            builder.setTitle(R.string.deleteList);
+            builder.setMessage(R.string.cantUndone);
+
+            builder.setPositiveButton(R.string.delete, (dialog, id) -> {
+                db.spotListDao().deleteListById(value);
+                Toast.makeText(getApplicationContext(),R.string.toastSpotListDelete,Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SpotListActivity.this, MainActivity.class));
-            }
+            });
+
+            builder.create();
+            builder.show();
         });
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SpotListActivity.this);
-                builder.setTitle(R.string.deleteList);
-                builder.setMessage(R.string.cantUndone);
+        edit.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SpotListActivity.this);
+            builder.setTitle(R.string.renameList);
 
-                builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        db.spotListDao().deleteListById(value);
-                        Toast.makeText(getApplicationContext(),R.string.toastSpotListDelete,Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SpotListActivity.this, MainActivity.class));
-                    }
-                });
-                // Create the AlertDialog
-                builder.create();
-                // Show the Dialog
-                builder.show();
-            }
-        });
+            View layout = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+            builder.setView(layout);
 
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SpotListActivity.this);
-                builder.setTitle(R.string.renameList);
+            //Create Dialog with EditText to enter new name
+            EditText listName = layout.findViewById(R.id.listName);
+            listName.setInputType(InputType.TYPE_CLASS_TEXT);
+            listName.setHint(R.string.newListHint);
 
-                View layout = getLayoutInflater().inflate(R.layout.alert_dialog, null);
-                builder.setView(layout);
-
-                EditText listName = layout.findViewById(R.id.listName);
-                listName.setInputType(InputType.TYPE_CLASS_TEXT);
-                listName.setHint(R.string.newListHint);
-
-                builder.setPositiveButton(R.string.rename, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if(TextUtils.isEmpty(listName.getText().toString())) {
-                            Toast.makeText(getApplicationContext(),R.string.toastSpotListFail,Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        list.name = listName.getText().toString();
-                        db.spotListDao().update(list);
-                        textView.setText(list.name);
-                        Toast.makeText(getApplicationContext(),R.string.toastSpotListEdit,Toast.LENGTH_SHORT).show();
-                    }
-                });
-                // Create the AlertDialog
-                builder.create();
-                // Show the Dialog
-                builder.show();
-            }
+            builder.setPositiveButton(R.string.rename, (dialog, id) -> {
+                if(TextUtils.isEmpty(listName.getText().toString())) {
+                    Toast.makeText(getApplicationContext(),R.string.toastSpotListFail,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                list.name = listName.getText().toString();
+                db.spotListDao().update(list);
+                textView.setText(list.name);
+                Toast.makeText(getApplicationContext(),R.string.toastSpotListEdit,Toast.LENGTH_SHORT).show();
+            });
+            // Create the AlertDialog
+            builder.create();
+            // Show the Dialog
+            builder.show();
         });
     }
 

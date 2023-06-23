@@ -23,17 +23,22 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.SpotSaver">
+            android:theme="@style/Theme.SpotSaver"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SpotListActivity"/>
-        <activity android:name=".CreateSpotActivity"/>
-        <activity android:name=".DetailSpotActivity"/>
-        <activity android:name=".UpdateSpotActivity"/>
+        <activity android:name=".SpotListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".CreateSpotActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".DetailSpotActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UpdateSpotActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

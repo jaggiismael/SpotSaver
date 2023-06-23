@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/backgroundWhite">
 
     <include
         android:id="@+id/toolbar"
@@ -11,14 +12,19 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="24dp"
         android:paddingLeft="24dp"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="24dp"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/errRed"
+        app:boxStrokeErrorColor="@color/errRed">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"/>
@@ -26,13 +32,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="24dp"
-        android:paddingLeft="24dp">
+        android:paddingLeft="24dp"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/errRed"
+        app:boxStrokeErrorColor="@color/errRed">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/description"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/description"/>
@@ -47,7 +58,8 @@
         android:layout_marginTop="15dp"
         android:textSize="16sp"
         android:text="@string/clickMap"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
@@ -60,6 +72,14 @@
         app:layout_constraintEnd_toEndOf="@+id/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/errMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/errRed"/>
 
     <Button
         android:id="@+id/addSpot"

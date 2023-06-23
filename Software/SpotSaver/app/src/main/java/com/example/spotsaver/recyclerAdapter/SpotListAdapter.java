@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -22,8 +21,8 @@ import java.util.List;
 
 public class SpotListAdapter extends RecyclerView.Adapter<SpotViewHolder> {
 
-    Context context;
-    List<Spot> spots;
+    private final Context context;
+    private final List<Spot> spots;
 
     public SpotListAdapter(Context context, List<Spot> spots) {
         this.context = context;
@@ -41,18 +40,15 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotViewHolder> {
         holder.nameView.setText(spots.get(position).name.trim());
         holder.descView.setText(spots.get(position).description.trim());
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Liste", "iid: " + (spots.get(position).id));
-                Intent intent = new Intent(context, DetailSpotActivity.class);
+        holder.layout.setOnClickListener(view -> {
+            Log.d("Liste", "iid: " + (spots.get(position).id));
+            Intent intent = new Intent(context, DetailSpotActivity.class);
 
-                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                Bundle b = new Bundle();
-                b.putInt("key", spots.get(position).id); //List Id
-                intent.putExtras(b); //Put your id to your next Intent
-                context.startActivity(intent);
-            }
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            Bundle b = new Bundle();
+            b.putInt("key", spots.get(position).id); //List Id
+            intent.putExtras(b); //Put your id to your next Intent
+            context.startActivity(intent);
         });
     }
 

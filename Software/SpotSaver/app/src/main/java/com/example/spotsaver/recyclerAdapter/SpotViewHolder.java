@@ -1,7 +1,6 @@
 package com.example.spotsaver.recyclerAdapter;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,11 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.spotsaver.R;
 
 public class SpotViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView imageView;
-        TextView nameView, descView;
-        RelativeLayout layout;
-
+        public TextView nameView, descView;
+        public RelativeLayout layout;
 
     public SpotViewHolder(@NonNull View itemView) {
             super(itemView);

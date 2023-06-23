@@ -24,4 +24,6 @@
     <string name="updateSpot">Ort bearbeiten</string>
     <string name="save">Speichern</string>
     <string name="savedChanges">Änderungen gespeichert</string>
+    <string name="errMap">Bitte wählen Sie einen Ort aus!</string>
+    <string name="details">Details</string>
 </resources>
