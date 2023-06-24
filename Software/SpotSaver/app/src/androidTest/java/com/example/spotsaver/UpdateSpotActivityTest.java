@@ -15,6 +15,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.spotsaver.model.Spot;
@@ -27,9 +28,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
+@RunWith(AndroidJUnit4.class)
 public class UpdateSpotActivityTest {
 
     private AppDatabase database;
@@ -44,7 +47,7 @@ public class UpdateSpotActivityTest {
 
     @Before
     public void setup() {
-        // Create an in-memory database for testing
+        // Create a database for testing
         database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
@@ -89,7 +92,7 @@ public class UpdateSpotActivityTest {
         //Hide the keyboard
         onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard());
 
-        // Perform a single click on the map (assuming it covers the entire screen)
+        // Perform a click on the map
         Espresso.onView(withId(R.id.mapView)).perform(ViewActions.click());
 
         // Click the "Save" button

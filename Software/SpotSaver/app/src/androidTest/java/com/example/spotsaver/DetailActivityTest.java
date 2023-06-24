@@ -13,6 +13,7 @@ import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.spotsaver.model.Spot;
@@ -25,9 +26,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
+@RunWith(AndroidJUnit4.class)
 public class DetailActivityTest {
 
     private AppDatabase database;
@@ -42,7 +45,7 @@ public class DetailActivityTest {
 
     @Before
     public void setup() {
-        // Create an in-memory database for testing
+        // Create a database for testing
         database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
@@ -77,7 +80,7 @@ public class DetailActivityTest {
     }
 
     @Test
-    public void deleteListTest() {
+    public void deleteSpotTest() {
 
         // Click on the delete ImageView
         Espresso.onView(ViewMatchers.withId(R.id.delete)).perform(ViewActions.click());

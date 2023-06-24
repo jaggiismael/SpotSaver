@@ -66,7 +66,7 @@ public class UpdateSpotActivity extends AppCompatActivity {
         nameLayout = findViewById(R.id.nameLayout);
         descLayout = findViewById(R.id.descLayout);
 
-        TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
+        TextView textView = toolbar.findViewById(R.id.tTextview);
         textView.setText(R.string.updateSpot);
 
 
@@ -110,6 +110,7 @@ public class UpdateSpotActivity extends AppCompatActivity {
         mapMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         map.getOverlays().add(mapMarker);
 
+        //Used to place marker on map after click and remove older marker
         final MapEventsReceiver mReceive = new MapEventsReceiver(){
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {

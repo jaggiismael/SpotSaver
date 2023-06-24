@@ -32,7 +32,7 @@ public class MainActivityTest {
 
     @Before
     public void setup() {
-        // Create an database for testing
+        // Create a database for testing
         database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
@@ -59,7 +59,7 @@ public class MainActivityTest {
         onView(withId(R.id.listName)).perform(ViewActions.typeText("List 1"));
         onView(withText(R.string.add)).perform(ViewActions.click());
 
-        // Assert that the list is inserted in the database
+        // Check that the list is inserted in the database
         List<SpotList> lists = database.spotListDao().getAll();
         Log.d("List", String.valueOf(lists.size()));
         assertNotNull(lists);

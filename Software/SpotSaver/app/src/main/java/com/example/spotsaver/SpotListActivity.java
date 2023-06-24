@@ -48,7 +48,7 @@ public class SpotListActivity extends AppCompatActivity {
         ImageView edit = toolbar.findViewById(R.id.edit);
         ImageView back = findViewById(R.id.back);
 
-        TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
+        TextView textView = toolbar.findViewById(R.id.tTextview);
 
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);

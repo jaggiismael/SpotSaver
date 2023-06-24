@@ -1,5 +1,6 @@
 package com.example.spotsaver;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -68,7 +69,7 @@ public class CreateSpotActivity extends AppCompatActivity {
         descLayout = findViewById(R.id.descLayout);
         errMap = findViewById(R.id.errMap);
 
-        TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
+        TextView textView = toolbar.findViewById(R.id.tTextview);
         textView.setText(R.string.addSpot);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -94,11 +95,12 @@ public class CreateSpotActivity extends AppCompatActivity {
         mapMarker.setInfoWindow(null);
 
         //Set Marker Icon
-        Drawable d = getDrawable(R.drawable.marker);
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable d = getDrawable(R.drawable.marker);
         Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (10.0f * getResources().getDisplayMetrics().density), (int) (16.0f * getResources().getDisplayMetrics().density), true));
         mapMarker.setIcon(dr);
 
+        //Used to place marker on map after click
         final MapEventsReceiver mReceive = new MapEventsReceiver(){
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {

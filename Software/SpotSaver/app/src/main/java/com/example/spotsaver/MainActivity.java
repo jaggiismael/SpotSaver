@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
+        TextView textView = toolbar.findViewById(R.id.tTextview);
         textView.setText(R.string.listTitle);
+        //Hide the unnecessary images
         toolbar.findViewById(R.id.back).setVisibility(View.GONE);
         toolbar.findViewById(R.id.edit).setVisibility(View.GONE);
         toolbar.findViewById(R.id.delete).setVisibility(View.GONE);
@@ -70,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
             View layout = getLayoutInflater().inflate(R.layout.alert_dialog, null);
             builder.setView(layout);
 
+            //Add EditText to AlertDialog to add List name
             EditText listName = layout.findViewById(R.id.listName);
             listName.setInputType(InputType.TYPE_CLASS_TEXT);
             listName.setHint(R.string.newListHint);
 
             builder.setPositiveButton(R.string.add, (dialog, id) -> {
+                //Check if name is still empty
                 if(TextUtils.isEmpty(listName.getText().toString())) {
                     Toast.makeText(getApplicationContext(),R.string.toastSpotListFail,Toast.LENGTH_SHORT).show();
                     return;

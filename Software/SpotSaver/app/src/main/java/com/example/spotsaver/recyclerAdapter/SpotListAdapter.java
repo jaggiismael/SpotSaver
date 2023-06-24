@@ -40,6 +40,7 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotViewHolder> {
         holder.nameView.setText(spots.get(position).name.trim());
         holder.descView.setText(spots.get(position).description.trim());
 
+        //After Click on Spot open DetailSpotActivity
         holder.layout.setOnClickListener(view -> {
             Log.d("Liste", "iid: " + (spots.get(position).id));
             Intent intent = new Intent(context, DetailSpotActivity.class);

@@ -46,7 +46,7 @@ public class DetailSpotActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        TextView textView = (TextView)toolbar.findViewById(R.id.tTextview);
+        TextView textView = toolbar.findViewById(R.id.tTextview);
         textView.setText(R.string.details);
         ImageView delete = toolbar.findViewById(R.id.delete);
         ImageView edit = toolbar.findViewById(R.id.edit);
@@ -103,6 +103,7 @@ public class DetailSpotActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.delete, (dialog, id) -> {
                 db.spotDao().delete(spot.id);
                 Toast.makeText(getApplicationContext(),R.string.toastSpotDelete,Toast.LENGTH_SHORT).show();
+                //Go back to SpotListActivity after deletings
                 Intent intent = new Intent(DetailSpotActivity.this, SpotListActivity.class);
                 Bundle bDelete = new Bundle();
                 bDelete.putInt("key", spot.lid); //List Id
@@ -124,12 +125,10 @@ public class DetailSpotActivity extends AppCompatActivity {
 
 
     }
-
     public void onResume() {
         super.onResume();
         map.onResume();
     }
-
     public void onPause() {
         super.onPause();
         map.onPause();

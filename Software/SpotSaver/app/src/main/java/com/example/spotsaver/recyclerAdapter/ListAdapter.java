@@ -43,6 +43,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
     public void onBindViewHolder(@NonNull ListViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.nameView.setText(lists.get(position).name.trim());
 
+        //After click on one List open SpotListActivity
         holder.layout.setOnClickListener(view -> {
             Log.d("Liste", "iid: " + (lists.get(position).lid));
             Intent intent = new Intent(context, SpotListActivity.class);
@@ -50,11 +51,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             Bundle b = new Bundle();
             b.putInt("key", lists.get(position).lid); //List Id
-            intent.putExtras(b); //Put your id to your next Intent
+            intent.putExtras(b);
             context.startActivity(intent);
         });
     }
 
+    //Change view when new List is created
     @SuppressLint("NotifyDataSetChanged")
     public void updateList(List<SpotList> lists) {
         this.lists = lists;

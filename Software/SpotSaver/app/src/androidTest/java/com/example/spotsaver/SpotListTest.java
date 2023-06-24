@@ -46,6 +46,7 @@ public class SpotListTest {
 
     @Before
     public void createDatabase() {
+        // Create a database for testings
         database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 

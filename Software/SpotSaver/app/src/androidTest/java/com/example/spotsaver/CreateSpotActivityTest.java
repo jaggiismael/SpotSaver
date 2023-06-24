@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -48,7 +49,7 @@ public class CreateSpotActivityTest {
 
     @Before
     public void setup() {
-        // Create an in-memory database for testing
+        // Create a database for testing
         database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
                 AppDatabase.class, "item-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
@@ -75,9 +76,24 @@ public class CreateSpotActivityTest {
     }
 
     @Test
-    public void createNewSpot() {
+    public void createNewSpotTest() {
+        // Click the "Add Spot" button
+        onView(withId(R.id.addSpot)).perform(ViewActions.click());
+
+        //Check if Error Message is shown
+        onView(withText("Bitte geben Sie einen Namen ein!")).check(matches(isDisplayed()));
+
         // Enter spot name
         onView(withId(R.id.name)).perform(ViewActions.typeText("New Spot"));
+
+        //Hide the keyboard
+        onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard());
+
+        // Click the "Add Spot" button
+        onView(withId(R.id.addSpot)).perform(ViewActions.click());
+
+        //Check if Error Message is shown
+        onView(withText("Bitte geben Sie eine Beschreibung ein!")).check(matches(isDisplayed()));
 
         // Enter spot description
         onView(withId(R.id.description)).perform(ViewActions.typeText("Spot description"));
@@ -85,6 +101,11 @@ public class CreateSpotActivityTest {
         //Hide the keyboard
         onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard());
 
+        // Click the "Add Spot" button
+        onView(withId(R.id.addSpot)).perform(ViewActions.click());
+
+        //Check if Error Message is shown
+        onView(withText(R.string.errMap)).check(matches(isDisplayed()));
 
         // Simulate map interaction (e.g., click at a specific location)
         onView(withId(R.id.mapView)).perform(ViewActions.click());
@@ -95,8 +116,7 @@ public class CreateSpotActivityTest {
         // Verify that the SpotListActivity is launched
         onView(withId(R.id.recyclerview)).check(matches(isDisplayed()));
 
-        // You can add additional assertions to verify the created spot
-        // For example, you can check if the spot name is displayed in the list
+        // Check if the spot name is displayed in the list
         onView(withText("New Spot")).check(matches(isDisplayed()));
     }
 }
