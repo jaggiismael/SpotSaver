@@ -82,7 +82,7 @@ public class UpdateSpotActivityTest {
     }
 
     @Test
-    public void updateSpot() {
+    public void updateSpotTest() {
         // Change the name text
         Espresso.onView(withId(R.id.name)).perform(ViewActions.typeText("1"));
 
